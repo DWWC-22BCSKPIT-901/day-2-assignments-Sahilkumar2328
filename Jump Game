@@ -1,0 +1,25 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+int jump(vector<int>& nums) {
+ int n = nums.size(), jumps = 0, farthest = 0, end = 0;
+ for (int i = 0; i < n - 1; ++i) {
+ farthest = max(farthest, i + nums[i]);
+ if (i == end) {
+ jumps++;
+ end = farthest;
+ }
+ }
+ return jumps;
+}
+int main() {
+ vector<int> nums;
+ int num;
+
+ cout << "Enter the elements of the array (enter -1 to stop): ";
+ while (cin >> num && num != -1) {
+ nums.push_back(num);
+ }
+ cout << jump(nums) << endl;
+ return 0;
+}
