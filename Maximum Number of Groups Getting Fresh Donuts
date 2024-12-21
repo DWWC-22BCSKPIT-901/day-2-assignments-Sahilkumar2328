@@ -1,0 +1,39 @@
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+using namespace std;
+int maxHappyGroups(int batchSize, vector<int>& groups) {
+ unordered_map<int, int> count;
+ int happyGroups = 0;
+ for (int group : groups) {
+ int remainder = group % batchSize;
+ if (remainder == 0) {
+ happyGroups++;
+ } else {
+ count[remainder]++;
+ }
+ }
+ for (int i = 1; i < batchSize; ++i) {
+ int complement = batchSize - i;
+ if (count[i] > 0 && count[complement] > 0) {
+ int matches = min(count[i], count[complement]);
+ happyGroups += matches;
+ count[i] -= matches;
+ count[complement] -= matches;
+ }
+ }
+ happyGroups += count[0] / batchSize;
+ return happyGroups;
+}
+int main() {
+ int batchSize;
+ cin >> batchSize;
+ vector<int> groups;
+ int groupSize;
+
+ while (cin >> groupSize && groupSize != -1) {
+ groups.push_back(groupSize);
+ }
+ cout << maxHappyGroups(batchSize, groups) << endl;
+ return 0;
+}
